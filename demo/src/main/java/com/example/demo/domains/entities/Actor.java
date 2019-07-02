@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 
@@ -35,7 +36,7 @@ public class Actor implements Serializable {
 	private String lastName;
 
 	@Column(name="last_update")
-	private Timestamp lastUpdate;
+	private Timestamp lastUpdate = (new Timestamp(System.currentTimeMillis()));
 
 	//bi-directional many-to-one association to FilmActor
 	@OneToMany(mappedBy="actor")

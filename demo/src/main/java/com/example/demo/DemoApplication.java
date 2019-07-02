@@ -1,8 +1,14 @@
 package com.example.demo;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.example.demo.domains.entities.Actor;
+import com.example.demo.infraestructure.repositories.ActorRepository;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -12,9 +18,26 @@ public class DemoApplication implements CommandLineRunner {
 		
 	}
 
+	@Autowired
+	private ActorRepository dao;
+	
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Hola mundo");		
+		//System.out.println("Hola mundo");	
+//		Optional<Actor> rslt = dao.findById(999);
+//		if(rslt.isPresent())
+//			System.out.println(rslt);
+//		else {
+//			System.out.println("No encontrado");
+//		}
+//		dao.save(new Actor(0, "Pepito", "Grillo"));
+//		dao.save(new Actor(201, "Pepitooooo", "Grillooooo"));
+//		dao.deleteById(201);
+//		dao.findAll().stream()
+//			.forEach(item -> System.out.println(item));
+		dao.findTop5ByFirstNameStartingWithOrderByLastNameDesc("a")
+		.stream()
+		.forEach(item -> System.out.println(item));
 	}
 
 }
