@@ -24,7 +24,7 @@ public class City implements Serializable {
 	private String city;
 
 	@Column(name="last_update")
-	private Timestamp lastUpdate;
+	private Timestamp lastUpdate = (new Timestamp(System.currentTimeMillis()));
 
 	//bi-directional many-to-one association to Address
 	@OneToMany(mappedBy="city")
@@ -36,6 +36,18 @@ public class City implements Serializable {
 	private Country country;
 
 	public City() {
+	}
+
+	public City(int cityId) {
+		super();
+		this.cityId = cityId;
+	}
+
+	public City(int cityId, String city, Country country) {
+		super();
+		this.cityId = cityId;
+		this.city = city;
+		this.country = country;
 	}
 
 	public int getCityId() {
@@ -90,6 +102,11 @@ public class City implements Serializable {
 
 	public void setCountry(Country country) {
 		this.country = country;
+	}
+
+	@Override
+	public String toString() {
+		return "City [cityId=" + cityId + ", city=" + city + ", country=" + country + "]";
 	}
 
 }

@@ -10,10 +10,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.demo.application.dto.ActoresShortDTO;
+import com.example.demo.application.dto.CityEditDTO;
 import com.example.demo.application.dto.PeliculasShortDTO;
 import com.example.demo.domains.entities.Actor;
 import com.example.demo.domains.services.ActorService;
 import com.example.demo.infraestructure.repositories.ActorRepository;
+import com.example.demo.infraestructure.repositories.CityRepository;
 import com.example.demo.infraestructure.repositories.FilmRepository;
 
 @SpringBootApplication
@@ -31,6 +33,9 @@ public class DemoApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ActorService srv;
+	
+	@Autowired
+	private CityRepository citys;
 	
 	@Transactional
 	@Override
@@ -63,8 +68,14 @@ public class DemoApplication implements CommandLineRunner {
 //			.forEach(item -> System.out.println(item.getFilm().getTitle()));
 //		pelis.findByFilmIdNotNull(PeliculasShortDTO.class)
 //			.forEach(item -> System.out.println(item.getTitle()));
-		dao.findByActorIdNotNull(ActoresShortDTO.class)
-		.forEach(item -> System.out.println(item.getNombreCompleto()));
+//		dao.findByActorIdNotNull(ActoresShortDTO.class)
+//		.forEach(item -> System.out.println(item.getNombreCompleto()));
+		
+		CityEditDTO recibe = new CityEditDTO(0, "Madrid", 87);
+		citys.save(CityEditDTO.from(recibe));
+		citys.findAll().stream()
+			.map(item -> CityEditDTO.from(item))
+			.forEach(item -> System.out.println(item));
 	}
 
 }

@@ -33,6 +33,11 @@ public class Country implements Serializable {
 	public Country() {
 	}
 
+	public Country(int countryId) {
+		super();
+		this.countryId = countryId;
+	}
+
 	public int getCountryId() {
 		return this.countryId;
 	}
@@ -77,6 +82,33 @@ public class Country implements Serializable {
 		city.setCountry(null);
 
 		return city;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + countryId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Country other = (Country) obj;
+		if (countryId != other.countryId)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Country [countryId=" + countryId + ", country=" + country + "]";
 	}
 
 }
