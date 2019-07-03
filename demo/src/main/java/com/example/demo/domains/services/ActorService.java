@@ -9,12 +9,14 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.domains.entities.Actor;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.infraestructure.repositories.ActorRepository;
 
+@Service
 public class ActorService {
 	@Autowired
 	private ActorRepository dao;

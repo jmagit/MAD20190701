@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.example.demo.domains.entities.Actor;
+import com.example.demo.domains.services.ActorService;
 import com.example.demo.infraestructure.repositories.ActorRepository;
 
 @SpringBootApplication
@@ -20,6 +21,9 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Autowired
 	private ActorRepository dao;
+	
+	@Autowired
+	private ActorService srv;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -35,9 +39,17 @@ public class DemoApplication implements CommandLineRunner {
 //		dao.deleteById(201);
 //		dao.findAll().stream()
 //			.forEach(item -> System.out.println(item));
-		dao.findTop5ByFirstNameStartingWithOrderByLastNameDesc("a")
-		.stream()
-		.forEach(item -> System.out.println(item));
+//		dao.findTop5ByFirstNameStartingWithOrderByLastNameDesc("a")
+//		.stream()
+//		.forEach(item -> System.out.println(item));
+		
+		try {
+			srv.delete(new Actor(202, "555", "Grillo"));
+			srv.getAll().forEach(item -> System.out.println(item));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	
 	}
 
 }
