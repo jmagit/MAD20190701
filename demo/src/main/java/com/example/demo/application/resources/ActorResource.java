@@ -54,6 +54,13 @@ public class ActorResource {
 		return ActorEditDTO.from(srv.get(id));
 	}
 	
+	@GetMapping(path = "/{id}/peliculas")
+	public List<String> getPeliculas(@PathVariable int id) throws NotFoundException {
+		return srv.get(id).getFilmActors().stream()
+				.map(item -> item.getFilm().getTitle())
+				.collect(Collectors.toList());
+	}
+	
 	@PostMapping
 	public ResponseEntity<Object> add(@Valid @RequestBody ActorEditDTO dto) throws InvalidDataException {
 		Actor item = ActorEditDTO.from(dto);
