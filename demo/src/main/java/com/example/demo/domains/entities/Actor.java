@@ -5,6 +5,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
@@ -16,20 +19,23 @@ import java.util.Set;
  */
 @Entity
 @Table(name="actor")
-@NamedQuery(name="Actor.findAll", query="SELECT a FROM Actor a")
+@ApiModel(value = "Entidad Actor", description = "Tiene la informacion ...")
 public class Actor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="actor_id")
+	@ApiModelProperty(value = "Identificador unico del actor, como entero positivo", required = true)
 	private int actorId;
 
+	@ApiModelProperty(value = "Nombre del actor, de 2 a 45 caracteres", required = true)
 	@Column(name="first_name")
 	@NotBlank
 	@Size(max=45, min=2)
 	private String firstName;
 
+	@ApiModelProperty(value = "Apellidos del actor, de 2 a 45 caracteres", required = true)
 	@Column(name="last_name")
 	@NotBlank
 	@Size(max=45, min=2)

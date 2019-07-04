@@ -18,6 +18,9 @@ import com.example.demo.infraestructure.repositories.ActorRepository;
 import com.example.demo.infraestructure.repositories.CityRepository;
 import com.example.demo.infraestructure.repositories.FilmRepository;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@EnableSwagger2
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
 
@@ -71,11 +74,11 @@ public class DemoApplication implements CommandLineRunner {
 //		dao.findByActorIdNotNull(ActoresShortDTO.class)
 //		.forEach(item -> System.out.println(item.getNombreCompleto()));
 		
-		CityEditDTO recibe = new CityEditDTO(0, "Madrid", 87);
-		citys.save(CityEditDTO.from(recibe));
-		citys.findAll().stream()
-			.map(item -> CityEditDTO.from(item))
-			.forEach(item -> System.out.println(item));
+//		CityEditDTO recibe = new CityEditDTO(0, "Madrid", 87);
+//		citys.save(CityEditDTO.from(recibe));
+//		citys.findAll().stream()
+//			.map(item -> CityEditDTO.from(item))
+//			.forEach(item -> System.out.println(item));
 	}
 
 }
