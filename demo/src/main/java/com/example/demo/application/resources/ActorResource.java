@@ -1,6 +1,10 @@
 package com.example.demo.application.resources;
 
+import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import com.example.demo.application.dto.ActorEditDTO;
+import com.example.demo.application.dto.ActoresShortDTO;
 import com.example.demo.domains.entities.Actor;
 import com.example.demo.domains.services.ActorService;
 import com.example.demo.exceptions.BadRequestException;
@@ -35,21 +43,28 @@ public class ActorResource {
 	
 	@GetMapping
 	@ApiOperation(value = "Recupera la lista completa de actores")
-	public List<Actor> getAll() {
-		return srv.getAll();
+	public List<ActorEditDTO> getAll() {
+		return srv.getAll().stream()
+				.map(item -> ActorEditDTO.from(item))
+				.collect(Collectors.toList());
 	}
 	
 	@GetMapping(path = "/{id}")
-	public Actor getOne(@PathVariable int id) throws NotFoundException {
-		return srv.get(id);
+	public ActorEditDTO getOne(@PathVariable int id) throws NotFoundException {
+		return ActorEditDTO.from(srv.get(id));
 	}
 	
 	@PostMapping
-	@ResponseStatus(code=HttpStatus.ACCEPTED)
-	public void add(@RequestBody Actor item) throws InvalidDataException {
-		srv.add(item);
+	public ResponseEntity<Object> add(@Valid @RequestBody ActorEditDTO dto) throws InvalidDataException {
+		Actor item = ActorEditDTO.from(dto);
+		if(srv.isNotValid(item))
+			throw new InvalidDataException();
+		Actor newItem = srv.add(item);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+			.buildAndExpand(newItem.getActorId()).toUri();
+		return ResponseEntity.created(location).build();
 	}
-	
+
 	@PutMapping(path = "/{id}")
 	@ApiOperation(value = "Modifica los datos del actor", notes = "Debe coincidir los identificadores")
 	@ApiResponses({
@@ -57,12 +72,15 @@ public class ActorResource {
 		@ApiResponse(code = 400, message = "Datos invalidos"),
 		@ApiResponse(code = 404, message = "Actor no encontrado")
 	})
-	public Actor change(@ApiParam(value = "Identificador de actor") @PathVariable int id, 
-			@ApiParam(value = "Datos modificados del actor") @RequestBody Actor item) throws Exception {
+	public ActorEditDTO change(@ApiParam(value = "Identificador de actor") @PathVariable int id, 
+			@ApiParam(value = "Datos modificados del actor") @RequestBody ActorEditDTO dto) throws Exception {
 		// item.setActorId(id);
+		Actor item = ActorEditDTO.from(dto);
+		if(srv.isNotValid(item))
+			throw new InvalidDataException();
 		if(id != item.getActorId())
 			throw new BadRequestException("No coinciden los identificadores");
-		return srv.change(item);
+		return ActorEditDTO.from(srv.change(item));
 	}
 	
 	@DeleteMapping(path = "/{id}")

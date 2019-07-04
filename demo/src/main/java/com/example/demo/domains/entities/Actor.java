@@ -5,6 +5,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -42,10 +45,12 @@ public class Actor implements Serializable {
 	private String lastName;
 
 	@Column(name="last_update")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
 	private Timestamp lastUpdate = (new Timestamp(System.currentTimeMillis()));
 
 	//bi-directional many-to-one association to FilmActor
 	@OneToMany(mappedBy="actor")
+	@JsonIgnore
 	private Set<FilmActor> filmActors;
 
 	public Actor() {

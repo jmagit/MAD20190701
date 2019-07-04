@@ -44,6 +44,10 @@ public class ActorService {
 	public List<Actor> getAll() {
 		return dao.findAll();
 	}
+	public List<Object> getAll(Class type) {
+		return dao.findByActorIdNotNull(type);
+	}
+
 
 	public Actor get(int id) throws NotFoundException {
 		Optional<Actor> rslt = dao.findById(id);
