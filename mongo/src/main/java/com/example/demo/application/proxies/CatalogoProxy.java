@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.application.dto.FilmShortDTO;
 
-@FeignClient(name = "catalogo", url = "http://localhost:8004")
+//@FeignClient(name = "catalogo", url = "http://localhost:8004")
+@FeignClient(name = "CATALOGO-SERVICE")
 public interface CatalogoProxy {
 	@GetMapping("/peliculas?mode=short")
 	List<FilmShortDTO> getPeliculas();

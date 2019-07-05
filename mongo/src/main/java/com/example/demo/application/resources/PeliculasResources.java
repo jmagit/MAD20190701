@@ -44,6 +44,7 @@ public class PeliculasResources {
 
 	@Autowired
 	private CatalogoProxy proxy;
+	
 	@RabbitListener(queues = "${my.config.mq.catalogo}")
 	public void recive(EventMessage inMsg) {
 		log.warn("RECIBIDO: {}", inMsg);

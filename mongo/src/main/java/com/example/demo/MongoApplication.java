@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import com.example.demo.domains.entities.Direccion;
@@ -14,6 +15,7 @@ import com.example.demo.domains.entities.Persona;
 import com.example.demo.infraestructure.repositories.PersonasRepository;
 
 @EnableFeignClients("com.example.demo.application.proxies")
+@EnableEurekaClient
 @SpringBootApplication
 public class MongoApplication implements CommandLineRunner {
 
