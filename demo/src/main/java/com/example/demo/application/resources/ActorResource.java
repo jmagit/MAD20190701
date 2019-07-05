@@ -79,7 +79,8 @@ public class ActorResource {
 		@ApiResponse(code = 400, message = "Datos invalidos"),
 		@ApiResponse(code = 404, message = "Actor no encontrado")
 	})
-	public ActorEditDTO change(@ApiParam(value = "Identificador de actor") @PathVariable int id, 
+	public ActorEditDTO change(@ApiParam(value = "Identificador de actor", required = true,defaultValue = "0") 
+	@PathVariable int id, 
 			@ApiParam(value = "Datos modificados del actor") @RequestBody ActorEditDTO dto) throws Exception {
 		// item.setActorId(id);
 		Actor item = ActorEditDTO.from(dto);
